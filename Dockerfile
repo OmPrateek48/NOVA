@@ -1,17 +1,6 @@
-# Base image
-FROM python:3.9-slim
-
-# Set the working directory
+FROM python:3.9
 WORKDIR /app
-
-# Copy the project files
-COPY . .
-
-# Install necessary packages
+COPY requirements.txt .
 RUN pip install -r requirements.txt
-
-# Expose the port your app will run on
-EXPOSE 8000
-
-# Command to run your Python application
-CMD ["python", "main.py"]
+COPY . .
+CMD ["gunicorn", "nova:app", "--bind", "0.0.0.0:8000"]
